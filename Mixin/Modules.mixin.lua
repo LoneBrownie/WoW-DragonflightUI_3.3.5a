@@ -140,10 +140,8 @@ end
 
 function DragonflightUIModulesMixin:EnableAddonSpecific()
     -- print('DragonflightUIModulesMixin:EnableAddonSpecific()')
-    -- DevTools_Dump(Version)
-
-    local versionTable = {
-        {'IsClassic', 'Era'}, {'IsTBC', 'TBC'}, {'IsWotlk', 'Wrath'}, {'IsCata', 'Cata'}, {'IsMoP', 'Mists'}
+    -- DevTools_Dump(Version)    local versionTable = {
+        {'IsClassic', 'Era'}, {'IsTBC', 'TBC'}, {'IsWotlk', 'Wrath'}, {'Is335a', 'Wrath335a'}, {'IsCata', 'Cata'}, {'IsMoP', 'Mists'}
     }
 
     for k, v in ipairs(versionTable) do

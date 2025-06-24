@@ -36,11 +36,25 @@ function DF:Debug(m, ...)
 end
 
 function DF:Dump(value)
-    if showDebug then DevTools_Dump(value) end
+    if showDebug then 
+        if DevTools_Dump then
+            DevTools_Dump(value)
+        else
+            -- Fallback for 3.3.5a and other clients without DevTools_Dump
+            print("DF:Dump() - DevTools_Dump not available, using print instead")
+            if type(value) == "table" then
+                for k, v in pairs(value) do
+                    print(k, "=", tostring(v))
+                end
+            else
+                print(tostring(value))
+            end
+        end
+    end
 end
 
 function DF:ShowStartMessage()
-    local version = C_AddOns.GetAddOnMetadata('DragonflightUI', 'Version')
+    local version = (C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata)('DragonflightUI', 'Version')
 
     self:Print(version .. " loaded! Type '/dragonflight' or '/df' to open the options menu.")
 end

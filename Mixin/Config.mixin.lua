@@ -9,7 +9,7 @@ local QUICK_KEYBIND_MODE = QUICK_KEYBIND_MODE or L["ConfigMixinQuickKeybindMode"
 function DragonFlightUIConfigMixin:OnLoad()
     -- print('DragonFlightUIConfigMixin:OnLoad')
 
-    local version = C_AddOns.GetAddOnMetadata('DragonflightUI', 'Version')
+    local version = (C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata)('DragonflightUI', 'Version')
     local headerTextStr = 'DragonflightUI' .. ' |cff8080ff' .. version .. '|r'
     self.NineSlice.Text:SetText(headerTextStr)
 

@@ -23,6 +23,52 @@ else
     end
 end
 
+-- C_CVar compatibility for 3.3.5a
+if not C_CVar then
+    C_CVar = {}
+    
+    function C_CVar.GetCVar(cvar)
+        return GetCVar(cvar)
+    end
+    
+    function C_CVar.GetCVarBool(cvar)
+        return GetCVarBool(cvar)
+    end
+    
+    function C_CVar.SetCVar(cvar, value)
+        return SetCVar(cvar, value)
+    end
+end
+
+-- C_Container compatibility for 3.3.5a
+if not C_Container then
+    C_Container = {}
+    
+    function C_Container.GetContainerNumSlots(bagID)
+        return GetContainerNumSlots(bagID)
+    end
+    
+    function C_Container.GetContainerItemInfo(bagID, slot)
+        local icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID = GetContainerItemInfo(bagID, slot)
+        return {
+            iconFileID = icon,
+            stackCount = itemCount,
+            isLocked = locked,
+            quality = quality,
+            isReadable = readable,
+            hasLoot = lootable,
+            hyperlink = itemLink,
+            isFiltered = isFiltered,
+            hasNoValue = noValue,
+            itemID = itemID
+        }
+    end
+    
+    function C_Container.GetItemCooldown(bagID, slot)
+        return GetContainerItemCooldown(bagID, slot)
+    end
+end
+
 function DF.Compatibility:FuncOrWaitframe(addon, func)
     if DF:IsAddOnLoaded(addon) then
         -- print('Module:FuncOrWaitframe(addon,func)', addon, 'ISLOADED')

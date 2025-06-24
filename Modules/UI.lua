@@ -761,6 +761,11 @@ function Module:Wrath()
     Module:ChangeFrames()
 end
 
+function Module:Wrath335a()
+    -- Use the same functionality as regular Wrath for 3.3.5a client
+    Module:Wrath()
+end
+
 function Module:Cata()
     Module:ChangeFrames()
     Module:HookCharacterFrame()
