@@ -49,6 +49,8 @@ local defaults = {
             shortenKeybind = false,
             useKeyDown = false,
             keybindFontSize = 16,
+            -- state
+            stateDriver = 'SMART',
             -- Visibility
             showMouseover = false,
             hideAlways = false,
@@ -59,6 +61,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -96,6 +99,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -133,6 +137,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -169,6 +174,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -205,6 +211,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -241,6 +248,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -277,6 +285,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -313,6 +322,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -349,6 +359,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -374,6 +385,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -398,6 +410,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -434,6 +447,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -455,6 +469,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = false,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -476,6 +491,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -503,6 +519,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = false,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -525,6 +542,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = false,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -639,6 +657,12 @@ local gryphonsTable = {
     {value = 'ALLY', text = L["Alliance"], tooltip = 'descr', label = 'label'},
     {value = 'HORDE', text = L["Horde"], tooltip = 'descr', label = 'label'},
     {value = 'NONE', text = L["None"], tooltip = 'descr', label = 'label'}
+}
+
+local stateDriverTable = {
+    {value = 'DEFAULT', text = L["ActionbarDriverDefault"], tooltip = 'descr', label = 'label'},
+    {value = 'SMART', text = L["ActionbarDriverSmart"], tooltip = 'descr', label = 'label'},
+    {value = 'NOPAGING', text = L["ActionbarDriverNoPaging"], tooltip = 'descr', label = 'label'}
 }
 
 if DF.Cata then
@@ -882,6 +906,16 @@ local function GetBarOption(n)
                 order = 51.0,
                 editmode = true,
                 blizzard = true
+            },
+            stateDriver = {
+                type = 'select',
+                name = L["ActionbarDriverName"],
+                desc = L["ActionbarDriverNameDesc"] .. getDefaultStr('stateDriver', barname),
+                dropdownValues = stateDriverTable,
+                group = 'headerButtons',
+                order = 52.0,
+                editmode = true,
+                new = true
             }
         }
 
@@ -1547,7 +1581,7 @@ local bagsOptions = {
 -- bag blizzard options
 do
     local moreOptions = {
-        activate = {
+        showFreeBagSlots = {
             type = 'toggle',
             name = DISPLAY_FREE_BAG_SLOTS,
             desc = OPTION_TOOLTIP_DISPLAY_FREE_BAG_SLOTS,
@@ -1563,34 +1597,23 @@ do
         local key = info[1]
         local sub = info[2]
 
-        if sub == 'activate' then
-            C_CVar.GetCVarBool("displayFreeBagSlots")
+        if sub == 'showFreeBagSlots' then
+            return C_CVar.GetCVarBool("displayFreeBagSlots")
         else
             return getOption(info)
         end
-    end
-
-    local function CVarChangedCB()
-        local displayFreeBagSlots = C_CVar.GetCVarBool("displayFreeBagSlots");
-        if (displayFreeBagSlots) then
-            MainMenuBarBackpackButtonCount:Show();
-        else
-            MainMenuBarBackpackButtonCount:Hide();
-        end
-        MainMenuBarBackpackButton_UpdateFreeSlots();
     end
 
     bagsOptions.set = function(info, value)
         local key = info[1]
         local sub = info[2]
 
-        if sub == 'activate' then
+        if sub == 'showFreeBagSlots' then
             if value then
                 C_CVar.SetCVar("displayFreeBagSlots", 1)
             else
                 C_CVar.SetCVar("displayFreeBagSlots", 0)
             end
-            CVarChangedCB()
         else
             setOption(info, value)
         end
@@ -1921,6 +1944,7 @@ function Module:SetupActionbarFrames()
 
     createStuff(1, 'ActionButton')
     Module.bar1:SetupMainBar()
+    Module.bar1:AddPagingStateDriver()
     createStuff(2, 'MultiBarBottomLeftButton')
     createStuff(3, 'MultiBarBottomRightButton')
     createStuff(4, 'MultiBarLeftButton')
@@ -1928,8 +1952,10 @@ function Module:SetupActionbarFrames()
 
     for i = 1, 5 do
         local bar = Module['bar' .. i]
-        bar:StyleButtons()
-        bar:HookQuickbindMode()
+        if bar then
+            bar:StyleButtons()
+            bar:HookQuickbindMode()
+        end
     end
 
     -- secure handler
@@ -1998,12 +2024,7 @@ function Module:SetupActionbarFrames()
                     local flyoutHandler = owner:GetFrameRef("flyoutHandler")
                     if flyoutHandler then
                         flyoutHandler:Hide()
-                    end
-
-                    if IsModifiedClick("PICKUPACTION") then
-                        -- print('PICKUPACTION')
-                        return false;
-                    end                    
+                    end                               
 
                     if button == 'Keybind' then    
                         local useKeyDown = control:GetAttribute("ActionButtonUseKeyDown")                         
@@ -2013,6 +2034,11 @@ function Module:SetupActionbarFrames()
                         end
                         return false
                     end
+
+                    if IsModifiedClick("PICKUPACTION") then
+                        -- print('PICKUPACTION')
+                        return false;
+                    end  
 
                   
                     if down then 

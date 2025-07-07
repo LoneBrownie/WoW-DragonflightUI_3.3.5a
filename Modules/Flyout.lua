@@ -50,6 +50,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -96,6 +97,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -141,6 +143,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -186,6 +189,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -231,6 +235,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -276,6 +281,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -321,6 +327,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -366,6 +373,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -411,6 +419,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -456,6 +465,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -501,6 +511,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -546,6 +557,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -591,6 +603,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -636,6 +649,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -681,6 +695,7 @@ local defaults = {
             hideStance = false,
             hideStealth = false,
             hideNoStealth = false,
+            hideBattlePet = true,
             hideCustom = false,
             hideCustomCond = ''
         },
@@ -767,7 +782,7 @@ if DF.API.Version.IsClassic then
             spells = {587, 597, 990, 6129, 10144, 10145, 28612}
         }
     }
-    for k, v in ipairs(t) do
+    for k, v in pairs(t) do
         classDefaults.MAGE_ALLIANCE[k] = v;
         classDefaults.MAGE_HORDE[k] = v;
     end
@@ -1432,6 +1447,73 @@ for i = 1, numCustomButtons do
         end
     end
 
+    do
+        local localizedClass, englishClass, classIndex = UnitClass('player')
+
+        if englishClass == 'MAGE' then
+            local englishFaction, localizedFaction = UnitFactionGroup('player')
+
+            if englishFaction then englishClass = englishClass .. '_' .. englishFaction:upper() end
+            -- englishClass = 'MAGE_HORDE'
+        end
+
+        if classDefaults[englishClass] then
+            local template = classDefaults[englishClass]
+            -- local db = Module.db.char;
+
+            options.args['headerClassPresets'] = {
+                type = 'header',
+                name = L["FlyoutHeaderClassPresets"],
+                desc = L["FlyoutHeaderClassPresetsDesc"],
+                order = 12,
+                isExpanded = true,
+                editmode = true
+            }
+
+            for flyout, flyoutOptions in pairs(template) do
+                options.args['custom' .. flyout .. 'preset'] = {
+                    type = 'execute',
+                    name = L["ExtraOptionsPreset"],
+                    btnName = flyoutOptions.displayName,
+                    desc = L["FlyoutHeaderClassPresetsDesc"],
+                    func = function()
+                        local db = Module.db.char;
+                        local flyoutTable = db['custom' .. i]
+                        local baseID = 5 + i - 1
+
+                        for k, v in pairs(flyoutOptions) do
+                            if k ~= 'spells' then
+                                flyoutTable[k] = v;
+                            else
+                                local index = 0;
+                                for j, spell in ipairs(v) do
+                                    local name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon =
+                                        GetSpellInfo(spell)
+                                    if name then
+                                        -- print(name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon)
+                                        local actionID = baseID * 12 + j;
+                                        -- print('actionID', actionID, Module:GetAction(actionID))
+                                        Module:SetAction(actionID, 'spell', spell)
+                                        index = index + 1;
+                                    end
+                                end
+                                -- print('~~~>>', index)
+                                flyoutTable['buttons'] = index
+                            end
+                        end
+
+                        Module:ApplySettings('custom' .. i)
+                    end,
+                    group = 'headerClassPresets',
+                    order = flyout,
+                    editmode = true,
+                    new = true
+                }
+            end
+
+        end
+    end
+
     customOptionsTable[i] = options
     customOptionsTableEditmode[i] = optionsEditmode
 end
@@ -1875,7 +1957,7 @@ function Module:AddClassDefaults()
                         local name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon =
                             GetSpellInfo(spell)
                         if name then
-                            print(name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon)
+                            -- print(name, rank, icon, castTime, minRange, maxRange, spellID, originalIcon)
                             local actionID = baseID * 12 + i;
                             -- print('actionID', actionID, Module:GetAction(actionID))
                             Module:SetAction(actionID, 'spell', spell)

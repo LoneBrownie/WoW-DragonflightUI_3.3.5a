@@ -135,6 +135,11 @@ do
         "当启用'修改角色窗口'时，为CharacterStatsClassic添加兼容支持"
     L['CompatClassicCalendar'] = "Classic Calendar"
     L['CompatClassicCalendarDesc'] = "为Classic Calendar添加兼容支持"
+    -- L['CompatClique'] = "Clique"
+    -- L['CompatCliqueDesc'] = "Adds compatibility for Clique"
+    -- L['CompatLeatrixPlus'] = "LeatrixPlus"
+    -- L['CompatLeatrixPlusDesc'] =
+    -- "Adds compatibility for LeatrixPlus, e.g. removes the ugly classc color name background on the PlayerFrame."
     L['CompatLFGBulletinBoard'] = "LFG Bulletin Board"
     L['CompatLFGBulletinBoardDesc'] = "为LFG Bulletin Board添加兼容支持"
     L['CompatMerInspect'] = "MerInspect"
@@ -199,6 +204,16 @@ do
     L["Alliance"] = "联盟"
     L["Horde"] = "部落"
     L["None"] = "无"
+
+    -- stateDriverTable
+    -- L["ActionbarDriverDefault"] = "Default"
+    -- L["ActionbarDriverSmart"] = "Smart"
+    -- L["ActionbarDriverNoPaging"] = "No Paging"
+
+    -- stateDriver
+    -- L['ActionbarDriverName'] = "Paging"
+    -- L['ActionbarDriverNameDesc'] =
+    --     "Changes the paging behaviour of the main action bar, e.g. when changing stance or stealth.\n'Default' - no change\n'Smart' - adds custom page for Druid cat stealth\n'No Paging' - disables all paging"
 
     -- buttonTable
     L["ButtonTableActive"] = "启用"
@@ -385,6 +400,9 @@ do
     L["FlyoutButtonCustomFormat"] = "自定义弹出按钮 %d"
     L["FlyoutCustomNameFormat"] = "自定义弹出按钮 %d"
     L["FlyoutCustomNameDescFormat"] = "每个角色的弹出按钮，拥有最多12个额外的动作按钮。"
+
+    L["FlyoutHeaderClassPresets"] = "职业预设"
+    L["FlyoutHeaderClassPresetsDesc"] = "将弹出按钮预设设置为角色专有预设。"
 end
 
 -- Castbar
@@ -444,6 +462,9 @@ do
     L["MinimapHideZoomDesc"] = "隐藏缩放按钮(+)(-)"
     L["MinimapSkinMinimapButtons"] = "美化小地图按钮"
     L["MinimapSkinMinimapButtonsDesc"] = "使用LibDBIcon美化小地图按钮(多数插件使用此库)"
+    L["MinimapZonePanelPosition"] = "区域面板位置"
+    L["MinimapZonePanelPositionDesc"] =
+        "设置区域文本面板的位置，包括锚定在上面的框体（例如：日历、跟踪、邮件等）。"
     L["MinimapUseStateHandler"] = "使用状态处理器"
     L["MinimapUseStateHandlerDesc"] =
         "禁用此项将导致上方可见性设置失效，但可能提升其他插件兼容性(如MinimapAlert)，因为它不会使框架变为安全框架。"

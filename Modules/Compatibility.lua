@@ -14,6 +14,8 @@ local defaults = {
             baganatorEquipment = true,
             characterstatsclassic = true,
             classicalendar = true,
+            clique = true,
+            leatrixPlus = true,
             lfgbulletinboard = true,
             merinspect = true,
             ranker = true,
@@ -74,6 +76,18 @@ local compatOptions = {
             type = 'toggle',
             name = L["CompatClassicCalendar"],
             desc = L["CompatClassicCalendarDesc"] .. getDefaultStr('classicalendar', 'general'),
+            order = 21
+        },
+        clique = {
+            type = 'toggle',
+            name = L["CompatClique"],
+            desc = L["CompatCliqueDesc"] .. getDefaultStr('clique', 'general'),
+            order = 21
+        },
+        leatrixPlus = {
+            type = 'toggle',
+            name = L["CompatLeatrixPlus"],
+            desc = L["CompatLeatrixPlusDesc"] .. getDefaultStr('leatrixPlus', 'general'),
             order = 21
         },
         lfgbulletinboard = {
@@ -247,6 +261,18 @@ function Module:ApplySettings(sub)
     self:ConditionalOption('classicalendar', 'general', L['CompatClassicCalendar'], function()
         DF.API.Modules:HookEnableModule('Minimap', function(m)
             Module:FuncOrWaitframe('ClassicCalendar', DF.Compatibility.ClassicCalendarEra)
+        end)
+    end)
+
+    self:ConditionalOption('clique', 'general', L['CompatClique'], function()
+        DF.API.Modules:HookEnableModule('Unitframe', function(m)
+            Module:FuncOrWaitframe('Clique', DF.Compatibility.Clique)
+        end)
+    end)
+
+    self:ConditionalOption('leatrixPlus', 'general', L['CompatLeatrixPlus'], function()
+        DF.API.Modules:HookEnableModule('Unitframe', function(m)
+            Module:FuncOrWaitframe('Leatrix_Plus', DF.Compatibility.LeatrixPlus)
         end)
     end)
 

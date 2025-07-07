@@ -1192,6 +1192,9 @@ function DFProfessionMixin:SetCurrentProfession()
         end
     end
 
+    -- I hate blizzard (bug only on german locale)
+    if nameLoc == 'Runenschmieden' then nameLoc = 'Runen schmieden'; end
+
     for k, v in pairs(self.ProfessionTable) do
         if v.nameLoc == nameLoc then
             self.SelectedProfession = k;
@@ -1757,7 +1760,7 @@ function DFProfessionMixin:UpdateRecipe(id)
         frame.CostLabel:Hide()
         frame.CostText:SetText('')
 
-        self.CreateButton:SetText(altVerb or CREATE);
+        self.CreateButton:SetText(altVerb or CREATE_PROFESSION);
 
         if (creatable) then
             self.CreateButton:Enable();

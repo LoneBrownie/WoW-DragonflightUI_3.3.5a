@@ -143,6 +143,11 @@ do
         "Добавляет совместимость с CharacterStatsClassic при использовании модуля UI с включенной опцией 'Изменить окно персонажа'."
     L['CompatClassicCalendar'] = "Classic Calendar"
     L['CompatClassicCalendarDesc'] = "Добавляет совместимость с Classic Calendar."
+    -- L['CompatClique'] = "Clique"
+    -- L['CompatCliqueDesc'] = "Adds compatibility for Clique"
+    -- L['CompatLeatrixPlus'] = "LeatrixPlus"
+    -- L['CompatLeatrixPlusDesc'] =
+    -- "Adds compatibility for LeatrixPlus, e.g. removes the ugly classc color name background on the PlayerFrame."
     L['CompatLFGBulletinBoard'] = "LFG Bulletin Board"
     L['CompatLFGBulletinBoardDesc'] = "Добавляет совместимость с LFG Bulletin Board."
     L['CompatMerInspect'] = "MerInspect"
@@ -212,6 +217,16 @@ do
     L["Alliance"] = "Альянс"
     L["Horde"] = "Орда"
     L["None"] = "Нет"
+
+    -- stateDriverTable
+    -- L["ActionbarDriverDefault"] = "Default"
+    -- L["ActionbarDriverSmart"] = "Smart"
+    -- L["ActionbarDriverNoPaging"] = "No Paging"
+
+    -- stateDriver
+    -- L['ActionbarDriverName'] = "Paging"
+    -- L['ActionbarDriverNameDesc'] =
+    --     "Changes the paging behaviour of the main action bar, e.g. when changing stance or stealth.\n'Default' - no change\n'Smart' - adds custom page for Druid cat stealth\n'No Paging' - disables all paging"
 
     -- buttonTable
     L["ButtonTableActive"] = "Активно"
@@ -396,6 +411,10 @@ do
     --    L["FlyoutButtonCustomFormat"] = "Custom Flyout %d"
     --    L["FlyoutCustomNameFormat"] = "Custom Flyout %d"
     --    L["FlyoutCustomNameDescFormat"] = "Per-character flyout button with up to 12 additional actionbuttons."
+
+    -- L["FlyoutHeaderClassPresets"] = "Class Presets"
+    -- L["FlyoutHeaderClassPresetsDesc"] =
+    -- "Sets the flyout settings and also the buttons of the flyout to a character specific preset."
 end
 
 -- Castbar
@@ -461,6 +480,9 @@ do
     L["MinimapSkinMinimapButtons"] = "Стилизовать кнопки миникарты"
     L["MinimapSkinMinimapButtonsDesc"] =
         "Изменяет стиль кнопок миникарты с использованием LibDBIcon (большинство аддонов используют это)"
+    -- L["MinimapZonePanelPosition"] = "Zone Panel Position"
+    -- L["MinimapZonePanelPositionDesc"] =
+    -- "Sets the position of the zone text panel including the frames anchored to it (e.g. calendar, tracking, mail, ..)."
     L["MinimapUseStateHandler"] = "Использовать обработчик состояния"
     L["MinimapUseStateHandlerDesc"] =
         "Без этого настройки видимости выше не будут работать, но может улучшить совместимость с другими аддонами (например, MinimapAlert), так как не делает окна защищенными."

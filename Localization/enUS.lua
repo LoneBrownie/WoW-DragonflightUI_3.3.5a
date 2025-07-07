@@ -134,6 +134,11 @@ do
         "Adds compatibility for CharacterStatsClassic when using the UI Module with 'Change CharacterFrame' enabled."
     L['CompatClassicCalendar'] = "Classic Calendar"
     L['CompatClassicCalendarDesc'] = "Adds compatibility for Classic Calendar"
+    L['CompatClique'] = "Clique"
+    L['CompatCliqueDesc'] = "Adds compatibility for Clique"
+    L['CompatLeatrixPlus'] = "LeatrixPlus"
+    L['CompatLeatrixPlusDesc'] =
+        "Adds compatibility for LeatrixPlus, e.g. removes the ugly classc color name background on the PlayerFrame."
     L['CompatLFGBulletinBoard'] = "LFG Bulletin Board"
     L['CompatLFGBulletinBoardDesc'] = "Adds compatibility for LFG Bulletin Board"
     L['CompatMerInspect'] = "MerInspect"
@@ -203,6 +208,16 @@ do
     L["Alliance"] = "Alliance"
     L["Horde"] = "Horde"
     L["None"] = "None"
+
+    -- stateDriverTable
+    L["ActionbarDriverDefault"] = "Default"
+    L["ActionbarDriverSmart"] = "Smart"
+    L["ActionbarDriverNoPaging"] = "No Paging"
+
+    -- stateDriver
+    L['ActionbarDriverName'] = "Paging"
+    L['ActionbarDriverNameDesc'] =
+        "Changes the paging behaviour of the main action bar, e.g. when changing stance or stealth.\n'Default' - no change\n'Smart' - adds custom page for Druid cat stealth\n'No Paging' - disables all paging"
 
     -- buttonTable
     L["ButtonTableActive"] = "Active"
@@ -386,6 +401,10 @@ do
     L["FlyoutButtonCustomFormat"] = "Custom Flyout %d"
     L["FlyoutCustomNameFormat"] = "Custom Flyout %d"
     L["FlyoutCustomNameDescFormat"] = "Per-character flyout button with up to 12 additional actionbuttons."
+
+    L["FlyoutHeaderClassPresets"] = "Class Presets"
+    L["FlyoutHeaderClassPresetsDesc"] =
+        "Sets the flyout settings and also the buttons of the flyout to a character specific preset."
 end
 
 -- Castbar
@@ -446,6 +465,8 @@ do
     L["MinimapHideZoomDesc"] = "Hides the zoom buttons (+) (-)"
     L["MinimapSkinMinimapButtons"] = "Skin Minimap Buttons"
     L["MinimapSkinMinimapButtonsDesc"] = "Changes the Style of Minimap Buttons using LibDBIcon (most addons use this)"
+    L["MinimapZonePanelPosition"] = "Header Position"
+    L["MinimapZonePanelPositionDesc"] = "Sets the header position."
     L["MinimapUseStateHandler"] = "Use State Handler"
     L["MinimapUseStateHandlerDesc"] =
         "Without this, the visibility settings above won't work, but might improve other addon compatibility (e.g. for MinimapAlert) as it does not make frames secure."

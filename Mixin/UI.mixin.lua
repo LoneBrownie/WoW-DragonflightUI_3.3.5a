@@ -835,6 +835,7 @@ end
 
 function DragonflightUIMixin:ChangeInspectFrame()
     if not InspectFrame or InspectFrame.DFHooked then return end
+    if DF.API.Version.IsMoP then return end-- TODO
 
     do
         local regions = {InspectPaperDollFrame:GetRegions()}
@@ -904,11 +905,13 @@ function DragonflightUIMixin:ChangeInspectFrame()
         InspectTalentFrame:SetPoint('TOPLEFT', InspectFrame, 'TOPLEFT', 0 + dx, 0 + dy)
         InspectTalentFrame:SetPoint('BOTTOMRIGHT', InspectFrame, 'BOTTOMRIGHT', 0 + dx, 0 + dy)
 
-        InspectTalentFrameCloseButton:Hide()
+        if InspectTalentFrameCloseButton then InspectTalentFrameCloseButton:Hide() end
 
-        local pointsBar = InspectTalentFramePointsBar
-        pointsBar:ClearAllPoints()
-        pointsBar:SetPoint('BOTTOM', InspectFrame, 'BOTTOM', 0, 4)
+        if InspectTalentFramePointsBar then
+            local pointsBar = InspectTalentFramePointsBar
+            pointsBar:ClearAllPoints()
+            pointsBar:SetPoint('BOTTOM', InspectFrame, 'BOTTOM', 0, 4)
+        end
 
         local scroll = InspectTalentFrameScrollFrame
         scroll:SetPoint('TOPRIGHT', InspectFrame, 'TOPRIGHT', -32, -66)
@@ -1722,7 +1725,7 @@ function DragonflightUIMixin:ChangeCharacterFrameCata()
     CharacterFrameBg:SetPoint('BOTTOMRIGHT', CharacterFrame, 'BOTTOMRIGHT', 0, 3)
     -- CharacterFrameBg:SetDrawLayer('BACKGROUND', 2)
 
-    do
+    if DF.API.Version.IsCata then
         -- <Anchor point="BOTTOMLEFT" x="130" y="16"/>
         local main = _G['CharacterMainHandSlot']
         main:ClearAllPoints()
@@ -1832,6 +1835,62 @@ function DragonflightUIMixin:ImproveTaxiFrame()
         TaxiFrame:SetAttribute("UIPanelLayout-" .. "yoffset", 0);
         UpdateUIPanelPositions(TaxiFrame)
     end)
+end
+
+function DragonflightUIMixin:ChangeTaxiFrameMists()
+    local frame = TaxiFrame
+
+    local regions = {frame:GetRegions()}
+
+    for k, child in ipairs(regions) do
+        --
+        if child:GetObjectType() == 'Texture' then
+            --
+            local drawlayer, level = child:GetDrawLayer()
+            -- print(child:GetName(), child:GetDrawLayer())
+
+            if drawlayer == 'OVERLAY' then
+                child:Hide()
+            elseif drawlayer == 'BORDER' then
+                -- child:Hide()
+            elseif drawlayer == 'BACKGROUND' then
+                -- child:Hide()
+            end
+
+            if level < 0 then child:Hide() end
+        end
+    end
+
+    frame.BottomBorder:Hide()
+    frame.RightBorder:Hide()
+    frame.LeftBorder:Hide()
+    frame.BotLeftCorner:Hide()
+    frame.BotRightCorner:Hide()
+
+    DragonflightUIMixin:AddNineSliceTextures(frame, true)
+    DragonflightUIMixin:ButtonFrameTemplateNoPortrait(frame)
+    DragonflightUIMixin:FrameBackgroundSolid(frame, true)
+
+    local closeButton = frame.CloseButton
+    DragonflightUIMixin:UIPanelCloseButton(closeButton)
+    closeButton:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', 1, 0)
+
+    frame.Bg:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', -3 + 1, 3)
+    frame.InsetBg:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', -6 + 2, 4)
+
+    do
+        -- local map = TaxiRouteMap
+        -- map:ClearAllPoints()
+        -- map:SetPoint('TOPLEFT', frame, 'TOPLEFT', 8, -62)
+        -- map:Show()
+
+        -- local taxi = TaxiMap
+        -- taxi:Show()
+        -- taxi:ClearAllPoints()
+        -- taxi:SetPoint('TOPLEFT', frame, 'TOPLEFT', 8, -62)
+
+    end
+
 end
 
 function DragonflightUIMixin:ChangeLootFrame()
@@ -2269,7 +2328,7 @@ function DragonflightUIMixin:ChangeGossipFrame()
         local scroll = greeting.ScrollBox
         scroll:SetSize(300, 403)
         if DF.API.Version.IsMoP then
-            scroll:SetHeight(320) -- TODO
+            scroll:SetPoint('TOPLEFT', frame, 'TOPLEFT', 8, -65)
         else
             scroll:SetPoint('TOPLEFT', greeting, 'TOPLEFT', 8, -65)
         end
@@ -2286,7 +2345,11 @@ function DragonflightUIMixin:ChangeGossipFrame()
         bg:SetTexCoord(0.0009765625, 0.29296875, 0.0009765625, 0.3984375)
         bg:SetSize(299, 407)
         bg:SetDrawLayer('BACKGROUND', 0)
-        bg:SetPoint('TOPLEFT', greeting, 'TOPLEFT', 7, -62)
+        if DF.API.Version.IsMoP then
+            bg:SetPoint('TOPLEFT', frame, 'TOPLEFT', 7, -62)
+        else
+            bg:SetPoint('TOPLEFT', greeting, 'TOPLEFT', 7, -62)
+        end
     end
 
     do
@@ -2716,6 +2779,10 @@ function DragonflightUIMixin:ChangeQuestLogFrameCata()
 
         slice.LeftEdge = _G[frame:GetName() .. 'LeftBorder']
         slice.RightEdge = _G[frame:GetName() .. 'RightBorder']
+
+        local br = _G['EmptyQuestLogFrameBackgroundBottomRight']
+        br:ClearAllPoints()
+        br:SetPoint('TOPLEFT', _G['EmptyQuestLogFrameBackgroundTopLeft'], 'BOTTOMRIGHT', 0, 0)
     end
     DragonflightUIMixin:AddNineSliceTextures(frame, true)
     DragonflightUIMixin:ButtonFrameTemplateNoPortrait(frame)
